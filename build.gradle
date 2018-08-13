@@ -1,0 +1,58 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.3.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.1.0'
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+group = 'spring-cloud-aws-sqs-demo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    springCloudVersion = 'Finchley.RELEASE'
+}
+
+dependencies {
+    compile 'org.springframework.cloud:spring-cloud-starter-aws-messaging'
+
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-undertow'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework:spring-context-support'
+
+    testCompile 'org.junit.jupiter:junit-jupiter-api:5.2.0'
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:5.2.0"
+//    testRuntime "org.junit.vintage:junit-vintage-engine:5.2.0"
+    testRuntime "org.junit.platform:junit-platform-launcher:1.2.0"
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'cloud.localstack:localstack-utils:0.1.14'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
